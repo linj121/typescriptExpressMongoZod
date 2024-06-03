@@ -4,19 +4,19 @@ import { UserDocument } from "./user.model";
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 
-export interface ProductDocument extends mongoose.Document {
-  productId:   string;
+export interface ProductInput {
   user:        UserDocument["_id"];
   title:       string;
   description: string;
   price:       number;
   image:       string;
+}
+
+export interface ProductDocument extends ProductInput, mongoose.Document {
+  productId:   string;
   createdAt:   Date;
   updatedAt:   Date;
 }
-
-export type ProductInput =
-  DocumentDefinition<Omit<ProductDocument, "productId" | "createdAt" | "updatedAt">>
 
 const productSchema = new mongoose.Schema<ProductDocument>(
   {
