@@ -3,6 +3,16 @@ import type { Request, Response, NextFunction } from "express"
 import { verifyJwt } from "../utils/jwt.utils";
 import { reIssueAccessToken } from "../service/session.service";
 
+/**
+ * Get access token and refresh token in headers (namely authorization bearer and x-refresh).
+ * If access token can be verified, then decode the payload into `res.locals.user`. Otherwise just call next().
+ * If access token is present but cannot be verified, take refresh token and re-issue an access token.
+ * Then verify the access token and decode the payload into `res.locals.user`
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns next(), pass control to the next middleware or controller
+ */
 const deserializeUser = async (req: Request, res: Response, next: NextFunction) => {
   const accessToken = get(req, "headers.authorization", "").replace(/^Bearer\s/, "");
   console.log(`[deserializeUser] got accessToken ${accessToken}`);
