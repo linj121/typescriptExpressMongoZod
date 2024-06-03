@@ -11,7 +11,7 @@ export interface UserDocument extends mongoose.Document {
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
-const userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema<UserDocument>(
   {
     email: { type: String, required: true, unique: true },
     name: { type: String, required: true },
@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema(
 userSchema.pre("save", async function (next) {
   let user = this as UserDocument;
 
-  if (user.isModified("password")) {
+  if (!user.isModified("password")) {
     return next();
   }
 
@@ -47,6 +47,10 @@ userSchema.pre("save", async function (next) {
   return next();
 });
 
+/**
+ * https://mongoosejs.com/docs/guide.html#methods
+ * https://medium.com/@armaancodes/schema-methods-in-mongodb-mongoose-efd6e6bb9cc8
+ */
 userSchema.methods.comparePassword = async function (
   candidatePassword: string
 ): Promise<boolean> {
