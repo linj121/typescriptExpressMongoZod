@@ -35,6 +35,7 @@ const deserializeUser = async (req: Request, res: Response, next: NextFunction) 
     if (typeof newAccessToken === "string") {
       const result = verifyJwt(newAccessToken);
       res.locals.user = result.decoded;
+      console.log(`[deserializeUser] newAccessToken verification result: ${JSON.stringify(result)}`);
       return next();
     }
   }

@@ -2,7 +2,7 @@ export default {
   port: 1337,
   dbUri: "mongodb://localhost:27017/restapi-tut",
   saltWorkFactor: 10,
-  accessTokenTtl: "-1",
+  accessTokenTtl: "15min",
   refreshTokenTtl: "1y",
   publicKey: `-----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEArmwhi0gO1dJXIYa2k7XD
